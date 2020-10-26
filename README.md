@@ -34,6 +34,7 @@ If you want to test the bot by creating your personal instance, follow this step
 - python-gitlab
 - pytz
 - pandas
+- matplotlib
 - dryscrape
 
 To install all the requirements you can run:
