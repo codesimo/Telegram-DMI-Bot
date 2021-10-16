@@ -1,28 +1,19 @@
 """Test configuration"""
+from threading import Thread
 import asyncio
 import warnings
-
 import pytest
-from main import add_handlers
-from module.shared import config_map
-from telegram.ext import Updater
-from telethon.sessions import StringSession
 from telethon.sync import TelegramClient
+from telethon.sessions import StringSession
+from main import main
+from module.shared import config_map
 
-warnings.filterwarnings(
-    "ignore",
-    message="If 'per_message=False', 'CallbackQueryHandler' will not be tracked for every message.",
-)
+warnings.filterwarnings("ignore",
+                        message="If 'per_message=False', 'CallbackQueryHandler' will not be tracked for every message.")
 
 api_id = config_map['test']['api_id']
 api_hash = config_map['test']['api_hash']
 session = config_map['test']['session']
-
-
-def pytest_configure():
-    """Initializes the timeout and bot_tag global variables"""
-    pytest.timeout = 8
-    pytest.bot_tag = config_map['test']['tag']
 
 
 def get_session():
@@ -31,6 +22,15 @@ def get_session():
     """
     with TelegramClient(StringSession(), api_id, api_hash) as connection:
         print("Your session string is:", connection.session.save())
+
+
+def start_test_bot():
+    """Starts the bot with the test stettings
+    """
+    config_map['token'] = config_map['test']['token']
+    config_map['dev_group_chatid'] = config_map['test']['dev_group_chatid']
+    config_map['representatives_group'] = config_map['test']['representatives_group']
+    main()
 
 
 @pytest.fixture(scope="session")
@@ -45,7 +45,7 @@ def event_loop():
     loop.close()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 async def bot():
     """Called at the beginning of the testing session.
     Starts the bot with the testing setting in another thread
@@ -54,27 +54,15 @@ async def bot():
         None: wait for the testing session to end
     """
     print("[info] started telegram bot")
-    for test_key in config_map['test']:
-        if test_key in config_map:
-            config_map[test_key] = config_map['test'][test_key]
-
-    updater = Updater(
-        config_map['token'],
-        request_kwargs={'read_timeout': 20, 'connect_timeout': 20},
-        use_context=True,
-    )
-    add_handlers(updater.dispatcher)
-    updater.start_polling()
+    t = Thread(target=start_test_bot, daemon=True)
+    t.start()
     await asyncio.sleep(2)
-
     yield None
-
-    updater.stop()
     print("[info] closed telegram bot")
 
 
 @pytest.fixture(scope="session")
-async def client(bot) -> TelegramClient:
+async def client() -> TelegramClient:
     """Called at the beginning of the testing session.
     Creates the telegram client that will simulate the user
 
@@ -82,9 +70,7 @@ async def client(bot) -> TelegramClient:
         Iterator[TelegramClient]: telegram client that will simulate the user
     """
     print("[info] started telegram client")
-    tg_client = TelegramClient(
-        StringSession(session), api_id, api_hash, sequential_updates=True
-    )
+    tg_client = TelegramClient(StringSession(session), api_id, api_hash, sequential_updates=True)
 
     await tg_client.connect()  # Connect to the server
     await tg_client.get_me()  # Issue a high level command to start receiving message

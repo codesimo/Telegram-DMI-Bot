@@ -127,5 +127,4 @@ module/*.pyc
 pydrive
 pydrive/*
 .vscode
-.idea
 data/json/subjs.json

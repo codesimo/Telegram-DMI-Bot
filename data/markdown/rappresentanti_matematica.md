@@ -1,10 +1,8 @@
 *Rappresentanti Corso di Laurea Triennale*
 Catania Valentina - @valentina\_catania
-Curto Sofia - @Sofia_Curto
-Fragapane Leonardo - @leofragap06
-Minissale Giuseppe Virgilio - @Pepp_00
-Tilotta Fabio - @fatilo422
+Polignano Luisa - @LuisaPolignano
 
 
 *Rappresentnati Corso di Laurea Magistrale*
-Nessun dato trovato.
+Saccone Damiano @Dami88m
+Sciuto Rita - @RitaSciuto
