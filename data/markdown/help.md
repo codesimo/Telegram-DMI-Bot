@@ -9,13 +9,14 @@
 ☁️ /cloud - _linka le cartelle condivise su cloud_
 📣 /report - _permette di inviare una segnalazione ai rappresentanti_
 📂 /drive - _accedi a drive_
+🤝 /drive\_contribute - _ottieni i permessi per caricare materiale sulla cartella drive_
 📂 /git o /gitlab - _accedi a gitlab_
 🧑‍💻 /contributors - _mostra gli sviluppatori che hanno contribuito allo sviluppo del bot_
 🧾 /regolamentodidattico - _invia il pdf del regolamento didattico per l'anno desiderato_
 
 *Segreteria orari e contatti:*
 ✍️ /sdidattica - _segreteria didattica_
-📓 /sstudenti - _segreteria studenti_
+📓 /studenti - _segreteria studenti_
 /cea - _informazioni Centro per i sistemi di Elaborazione e Applicazioni scientifiche e didattiche_
 
 *ERSU orari e contatti:*
